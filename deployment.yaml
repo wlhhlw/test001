@@ -28,7 +28,7 @@ spec:
         app: wlh-test
     spec:
       imagePullSecrets:
-      - name: mihoyotest
+      - name: test
       containers:
       - name: wlh-test001
         image: ${CICD_IMAGE}:${CICD_EXECUTION_SEQUENCE}
