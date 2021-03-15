@@ -1,17 +1,19 @@
 stages:
-- name: Build
+- name: build
   steps:
   - runScriptConfig:
-      image: jdk:8
-      shellScript: |-
-        mvn clean install
-- name: Publish
+      image: java:8
+      shellScript: mvn clean install
+- name: publish
   steps:
   - publishImageConfig:
       dockerfilePath: ./Dockerfile
       buildContext: .
       tag: test001:${CICD_EXECUTION_SEQUENCE}
-- name: Deploy
+      registry: 127.0.0.1:34745
+- name: deploy
   steps:
   - applyYamlConfig:
       path: ./deployment.yaml
+timeout: 60
+notification: {}
