@@ -1,0 +1,17 @@
+stages:
+- name: Build
+  steps:
+  - runScriptConfig:
+      image: jdk:8
+      shellScript: |-
+        mvn clean install
+- name: Publish
+  steps:
+  - publishImageConfig:
+      dockerfilePath: ./Dockerfile
+      buildContext: .
+      tag: test001:${CICD_EXECUTION_SEQUENCE}
+- name: Deploy
+  steps:
+  - applyYamlConfig:
+      path: ./deployment.yaml

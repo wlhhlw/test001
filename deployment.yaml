@@ -1,0 +1,36 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: test-service
+spec:
+  selector:
+    app: wlh-test
+  type: NodePort
+  ports:
+    - protocol: TCP
+      port: 8080
+      targetPort: 8080
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: test
+  labels:
+    app: wlh-test
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: wlh-test
+  template:
+    metadata:
+      labels:
+        app: wlh-test
+    spec:
+      imagePullSecrets:
+      - name: mihoyotest
+      containers:
+      - name: wlh-test001
+        image: ${CICD_IMAGE}:${CICD_EXECUTION_SEQUENCE}
+        ports:
+        - containerPort: 9090
