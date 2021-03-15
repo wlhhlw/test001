@@ -10,7 +10,8 @@ stages:
       dockerfilePath: ./Dockerfile
       buildContext: .
       tag: test001:${CICD_EXECUTION_SEQUENCE}
-      registry: 127.0.0.1:34745
+      pushRemote: true
+      registry: harbor.mihoyo.com
 - name: deploy
   steps:
   - applyYamlConfig:
