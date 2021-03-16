@@ -12,6 +12,8 @@ stages:
       tag: test001:${CICD_EXECUTION_SEQUENCE}
       pushRemote: true
       registry: harbor.mihoyo.com
+    env:
+      PLUGIN_INSECURE: "true"
 - name: deploy
   steps:
   - applyYamlConfig:
