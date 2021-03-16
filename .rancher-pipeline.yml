@@ -1,20 +1,31 @@
 stages:
-- name: build
-  steps:
-  - runScriptConfig:
-      image: java:8
-      shellScript: mvn clean install
-- name: publish
-  steps:
-  - publishImageConfig:
-      dockerfilePath: ./Dockerfile
-      buildContext: .
-      tag: test001:${CICD_EXECUTION_SEQUENCE}
-      pushRemote: true
-      registry: harbor.mihoyo.com
-- name: deploy
-  steps:
-  - applyYamlConfig:
-      path: ./deployment.yaml
+  - name: build
+    steps:
+      - runScriptConfig:
+          image: maven:3-jdk-8
+          shellScript:
+            tee /settings.xml <<EOF
+            <settings>
+            <mirrors>
+            <mirror>
+            <mirrorOf>*</mirrorOf>
+            <url>https://maven.aliyun.com/repository/public</url>
+            </mirror>
+            </mirrors>
+            </settings>
+            EOF
+            mvn -s /settings.xml clean package
+  - name: publish
+    steps:
+      - publishImageConfig:
+          dockerfilePath: ./Dockerfile
+          buildContext: .
+          tag: test001:${CICD_EXECUTION_SEQUENCE}
+          pushRemote: true
+          registry: harbor.mihoyo.com
+  - name: deploy
+    steps:
+      - applyYamlConfig:
+          path: ./deployment.yaml
 timeout: 60000
 notification: {}
