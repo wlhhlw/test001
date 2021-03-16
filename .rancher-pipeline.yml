@@ -10,7 +10,7 @@ stages:
       dockerfilePath: ./Dockerfile
       buildContext: .
       tag: test001:${CICD_EXECUTION_SEQUENCE}
-      pushRemote: true
+      pushRemote: false
       registry: harbor.mihoyo.com
     env:
       PLUGIN_INSECURE: "true"
