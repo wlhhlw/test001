@@ -8,6 +8,6 @@ public class TestController {
 
     @RequestMapping("/test1")
     public String test(){
-        return "wanglinhai";
+        return "dfdaf";
     }
 }
